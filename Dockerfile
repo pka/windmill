@@ -1,4 +1,4 @@
-FROM debian:buster-slim as nsjail
+FROM debian:bullseye-slim as nsjail
 
 WORKDIR /nsjail
 
@@ -22,7 +22,7 @@ RUN if [ "$nsjail" = "true" ]; then git clone -b master --single-branch https://
     && git checkout dccf911fd2659e7b08ce9507c25b2b38ec2c5800; fi
 RUN if [ "$nsjail" = "true" ]; then make; else touch nsjail; fi
 
-FROM rust:slim-buster AS rust_base
+FROM rust:slim-bullseye AS rust_base
 
 RUN apt-get update && apt-get install -y git libssl-dev pkg-config npm
 
@@ -85,7 +85,7 @@ COPY .git/ .git/
 RUN CARGO_NET_GIT_FETCH_WITH_CLI=true cargo build --release --features "$features"
 
 
-FROM python:3.11.2-slim-buster
+FROM python:3.11.2-slim-bullseye
 
 ARG APP=/usr/src/app
 
